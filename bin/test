@@ -1,0 +1,34 @@
+#!/bin/bash
+
+result=0
+
+pkg=github.com/cppforlife/lint
+
+echo -e "\n Formatting packages..."
+go fmt $pkg/...
+let "result+=$?"
+
+echo -e "\n Installing package dependencies..."
+go test -i $pkg/...
+let "result+=$?"
+
+echo -e "\n Testing packages..."
+go test $pkg/... -race $@
+let "result+=$?"
+
+echo -e "\n Vetting packages for potential issues..."
+go vet $pkg/...
+let "result+=$?"
+
+echo -e "\n Building..."
+rm -f lint
+go build $pkg
+let "result+=$?"
+
+if [ $result -eq 0 ]; then
+	echo -e "\nSUCCESS"
+else
+	echo -e "\nFAILURE"
+fi
+
+exit $result

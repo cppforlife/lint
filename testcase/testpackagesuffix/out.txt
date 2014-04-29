@@ -1,0 +1,6 @@
+Looking at package "github.com/cppforlife/lint/testcase/testpackagesuffix"
+
+-- $GOPATH/src/github.com/cppforlife/lint/testcase/testpackagesuffix/main_test.go
+main_test.go:2:1 Test file should be in a corresponding test package
+  fileName = main_test.go
+  package : testpackagesuffix -> testpackagesuffix_test

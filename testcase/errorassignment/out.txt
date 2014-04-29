@@ -1,0 +1,21 @@
+Looking at package "github.com/cppforlife/lint/testcase/errorassignment"
+
+-- $GOPATH/src/github.com/cppforlife/lint/testcase/errorassignment/main.go
+main.go:10:6 Return value of type error should be assigned and used
+  func = func fmt.Printf(format string, a ...interface{}) (n int, err error)
+main.go:13:2 Return value of type error should be assigned and used
+  func = func github.com/cppforlife/lint/testcase/errorassignment.testSe() error
+main.go:16:2 Return value of type error should be assigned and used
+  func = func github.com/cppforlife/lint/testcase/errorassignment.testMe() (int, error)
+main.go:19:2 Return value of type error should be assigned and used
+  func = func github.com/cppforlife/lint/testcase/errorassignment.testMe2() (int, error, error)
+main.go:19:2 Return value of type error should be assigned and used
+  func = func github.com/cppforlife/lint/testcase/errorassignment.testMe2() (int, error, error)
+main.go:24:5 Return value of type error should be used
+  func = func fmt.Printf(format string, a ...interface{}) (n int, err error)
+main.go:27:2 Return value of type error should be used
+  func = func github.com/cppforlife/lint/testcase/errorassignment.testSe() error
+main.go:30:5 Return value of type error should be used
+  func = func github.com/cppforlife/lint/testcase/errorassignment.testMe() (int, error)
+main.go:33:10 Return value of type error should be used
+  func = func github.com/cppforlife/lint/testcase/errorassignment.testMe2() (int, error, error)
