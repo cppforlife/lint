@@ -1,4 +1,4 @@
-package ginkgosuitetestfilemissing_test
+package invalid_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestUuid(t *testing.T) {
+func TestInvalid(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Suite")
 }

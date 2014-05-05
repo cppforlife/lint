@@ -1,0 +1,6 @@
+Looking at package "github.com/cppforlife/lint/testcase/ginkgosuitetestfile/invalid_test"
+Looking at package "github.com/cppforlife/lint/testcase/ginkgosuitetestfile/invalid"
+
+-- $GOPATH/src/github.com/cppforlife/lint/testcase/ginkgosuitetestfile/invalid/main_test.go
+main_test.go:1:1 Ginkgo suite test file name should match directory name
+	suiteTestFileName : other_suite_test.go -> invalid_suite_test.go

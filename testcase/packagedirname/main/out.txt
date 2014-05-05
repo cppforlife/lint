@@ -1,0 +1,2 @@
+Looking at package "github.com/cppforlife/lint/testcase/packagedirname/main_test"
+Looking at package "github.com/cppforlife/lint/testcase/packagedirname/main"

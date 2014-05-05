@@ -8,20 +8,27 @@ import (
 )
 
 type testCase struct {
+	name        string
 	packageName string
 	outputPath  string
 }
 
-func newTestCaseFromGoPath(path, goPath string) testCase {
+func newTestCaseFromGoPath(path, walkDir, goPath string) testCase {
 	goSrc := filepath.Join(goPath, "src")
 	return testCase{
-		packageName: strings.TrimPrefix(path, goSrc),
+		name:        withoutSep(strings.TrimPrefix(path, walkDir)),
+		packageName: withoutSep(strings.TrimPrefix(path, goSrc)),
 		outputPath:  filepath.Join(path, "out.txt"),
 	}
 }
 
+func (tc testCase) Name() string        { return tc.name }
 func (tc testCase) PackageName() string { return tc.packageName }
 func (tc testCase) OutputPath() string  { return tc.outputPath }
+
+func withoutSep(path string) string {
+	return strings.TrimPrefix(path, string(filepath.Separator))
+}
 
 func FindTestCases(goPath string) ([]testCase, error) {
 	var testCases []testCase
@@ -35,7 +42,14 @@ func FindTestCases(goPath string) ([]testCase, error) {
 
 	walkFunc := func(path string, info os.FileInfo, err error) error {
 		if err == nil && info.IsDir() && path != walkDir {
-			testCases = append(testCases, newTestCaseFromGoPath(path, goPath))
+			files, err := filepath.Glob(filepath.Join(path, "*.go"))
+			if err != nil {
+				return err
+			}
+
+			if len(files) > 0 {
+				testCases = append(testCases, newTestCaseFromGoPath(path, walkDir, goPath))
+			}
 		}
 		return err
 	}

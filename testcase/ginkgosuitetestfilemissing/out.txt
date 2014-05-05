@@ -1,6 +1,0 @@
-Looking at package "github.com/cppforlife/lint/testcase/ginkgosuitetestfilemissing_test"
-Looking at package "github.com/cppforlife/lint/testcase/ginkgosuitetestfilemissing"
-
--- $GOPATH/src/github.com/cppforlife/lint/testcase/ginkgosuitetestfilemissing/main_test.go
-main_test.go:1:1 Missing ginkgo suite test file
-	suiteTestFileName : (missing) -> ginkgosuitetestfilemissing_suite_test.go

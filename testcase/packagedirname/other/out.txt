@@ -1,0 +1,12 @@
+Looking at package "github.com/cppforlife/lint/testcase/packagedirname/other_test"
+Looking at package "github.com/cppforlife/lint/testcase/packagedirname/other"
+
+-- $GOPATH/src/github.com/cppforlife/lint/testcase/packagedirname/other/main_test.go
+main_test.go:1:1 Test package name should match directory name with _text suffix
+  dirName = other
+  package : pkg_test -> other_test
+
+-- $GOPATH/src/github.com/cppforlife/lint/testcase/packagedirname/other/main.go
+main.go:1:1 Package name should match directory name
+  dirName = other
+  package : pkg -> other

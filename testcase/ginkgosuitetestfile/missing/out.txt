@@ -1,0 +1,6 @@
+Looking at package "github.com/cppforlife/lint/testcase/ginkgosuitetestfile/missing_test"
+Looking at package "github.com/cppforlife/lint/testcase/ginkgosuitetestfile/missing"
+
+-- $GOPATH/src/github.com/cppforlife/lint/testcase/ginkgosuitetestfile/missing/main_test.go
+main_test.go:1:1 Missing ginkgo suite test file
+	suiteTestFileName : (missing) -> missing_suite_test.go

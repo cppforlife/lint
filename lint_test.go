@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"reflect"
 	"testing"
 
 	"github.com/cppforlife/lint/testcase"
@@ -20,7 +21,11 @@ func TestAll(t *testing.T) {
 		t.Fatalf("FindTestCases %v", err)
 	}
 
+	var actualTestCaseNames, expectedTestCaseNames []string
+
 	for _, tc := range testCases {
+		actualTestCaseNames = append(actualTestCaseNames, tc.Name())
+
 		actualOutput, err := testcase.CaptureLintOutput(t, goPath, tc.PackageName())
 		if err != nil {
 			t.Fatalf("CaptureLintOutput %v", err)
@@ -37,5 +42,23 @@ func TestAll(t *testing.T) {
 			details := fmt.Sprintf("Actual:\n_%s_\n\nExpected:\n_%s_\n", test.Actual(), test.Expected())
 			t.Errorf("%s\n%s\n%s\n", desc, test.DiffLines(), details)
 		}
+	}
+
+	expectedTestCaseNames = []string{
+		"errorassignment",
+
+		"ginkgosuitetestfile/invalid",
+		"ginkgosuitetestfile/missing",
+		"ginkgosuitetestfile/valid",
+
+		"packagedirname/main",
+		"packagedirname/other",
+
+		"testpackagesuffix",
+	}
+
+	// Make sure all expected test cases are exercised
+	if !reflect.DeepEqual(actualTestCaseNames, expectedTestCaseNames) {
+		t.Fatalf("DeepEqual %v != %v", actualTestCaseNames, expectedTestCaseNames)
 	}
 }
