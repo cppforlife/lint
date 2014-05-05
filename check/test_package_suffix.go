@@ -32,6 +32,7 @@ type testPackageSuffix struct {
 
 // NewTestPackageSuffix constructs a check
 // to make sure test files belong to a _test package
+// instead of the same package that is being tested
 func NewTestPackageSuffix(
 	pkg *goloader.PackageInfo,
 	file *ast.File,
@@ -52,9 +53,9 @@ func (c testPackageSuffix) Check() []Problem {
 	pkgName := c.pkg.Pkg.Name()
 
 	isTestFile := strings.HasSuffix(fileName, "_test.go")
-	isTextPkg := strings.HasSuffix(pkgName, "_test")
+	isTestPkg := strings.HasSuffix(pkgName, "_test")
 
-	if isTestFile && !isTextPkg {
+	if isTestFile && !isTestPkg {
 		problems = append(problems, Problem{
 			Text:     "Test file should be in a corresponding test package",
 			Package:  c.pkg.Pkg,

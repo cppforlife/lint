@@ -65,3 +65,9 @@ Looking at package "github.com/cppforlife/lint"
 
 - Add `https://github.com/golang/lint` as a check
 - Check for unused/unassigned errors in defer and go stmts
+
+## Notes
+
+- http://godoc.org/go/ast
+- http://godoc.org/code.google.com/p/go.tools/go/loader
+- http://godoc.org/code.google.com/p/go.tools/go/types
