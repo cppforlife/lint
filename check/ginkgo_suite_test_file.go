@@ -46,7 +46,7 @@ func NewGingkoSuiteTestFile(
 	}
 }
 
-func (c gingkoSuiteTestFile) Check() []Problem {
+func (c gingkoSuiteTestFile) Check() ([]Problem, error) {
 	pkgPos := c.fset.Position(c.file.Package)
 	fileName := filepath.Base(pkgPos.Filename)
 	dirName := filepath.Base(filepath.Dir(pkgPos.Filename))
@@ -56,19 +56,22 @@ func (c gingkoSuiteTestFile) Check() []Problem {
 
 	// Ignore non-test files and suite test files
 	if !isTestFile || isSuiteTestFile {
-		return []Problem{}
+		return []Problem{}, nil
 	}
 
 	// Ignore test files that do not use ginkgo
 	if !c.importsGinkgo() {
-		return []Problem{}
+		return []Problem{}, nil
 	}
 
-	foundFileNames := c.suiteTestFileNames()
 	expectedFileName := dirName + "_suite_test.go"
+	foundFileNames, err := c.suiteTestFileNames()
+	if err != nil {
+		return []Problem{}, err
+	}
 
 	if reflect.DeepEqual(foundFileNames, []string{expectedFileName}) {
-		return []Problem{}
+		return []Problem{}, nil
 	}
 
 	var problems []Problem
@@ -105,7 +108,7 @@ func (c gingkoSuiteTestFile) Check() []Problem {
 		})
 	}
 
-	return problems
+	return problems, nil
 }
 
 // importsGinkgo determines if current file imports
@@ -123,13 +126,13 @@ func (c gingkoSuiteTestFile) importsGinkgo() bool {
 // suiteTestFiles returns list of possible suite test files
 // found in current file's directory
 // e.g. suite_test.go, pkg_suite_test.go
-func (c gingkoSuiteTestFile) suiteTestFileNames() []string {
+func (c gingkoSuiteTestFile) suiteTestFileNames() ([]string, error) {
 	pkgPos := c.fset.Position(c.file.Package)
 	dirPath := filepath.Dir(pkgPos.Filename)
 
 	paths, err := filepath.Glob(filepath.Join(dirPath, "*suite_test.go"))
 	if err != nil {
-		return []string{}
+		return []string{}, err
 	}
 
 	var fileNames []string
@@ -138,5 +141,5 @@ func (c gingkoSuiteTestFile) suiteTestFileNames() []string {
 		fileNames = append(fileNames, filepath.Base(path))
 	}
 
-	return fileNames
+	return fileNames, nil
 }

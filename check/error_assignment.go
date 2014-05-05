@@ -144,7 +144,7 @@ func NewCallExprErrorAssignment(
 	}
 }
 
-func (c errorAssignment) Check() []Problem {
+func (c errorAssignment) Check() ([]Problem, error) {
 	var returnErrorVarIs []int
 	var problems []Problem
 
@@ -184,10 +184,12 @@ func (c errorAssignment) Check() []Problem {
 		// fmt.Printf("No errors returned from %s", c.funcObj.String())
 	}
 
-	return problems
+	return problems, nil
 }
 
-func (c noopErrorAssignment) Check() []Problem { return []Problem{} }
+func (c noopErrorAssignment) Check() ([]Problem, error) {
+	return []Problem{}, nil
+}
 
 // extractAssignIdents extracts variable idents on lhs of assignment
 func extractAssignIdents(fset *token.FileSet, exprs []ast.Expr) []*ast.Ident {

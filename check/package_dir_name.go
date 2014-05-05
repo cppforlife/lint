@@ -44,9 +44,7 @@ func NewPackageDirName(
 	}
 }
 
-func (c packageDirName) Check() []Problem {
-	var problems []Problem
-
+func (c packageDirName) Check() ([]Problem, error) {
 	pkgPos := c.fset.Position(c.file.Package)
 	dirName := filepath.Base(filepath.Dir(pkgPos.Filename))
 	pkgName := c.pkg.Pkg.Name()
@@ -56,8 +54,10 @@ func (c packageDirName) Check() []Problem {
 
 	// Ignore main package since it corresponds to app-named directory
 	if expectedPkgName == "main" {
-		return problems
+		return []Problem{}, nil
 	}
+
+	var problems []Problem
 
 	if dirName != expectedPkgName {
 		problem := Problem{
@@ -83,5 +83,5 @@ func (c packageDirName) Check() []Problem {
 		problems = append(problems, problem)
 	}
 
-	return problems
+	return problems, nil
 }

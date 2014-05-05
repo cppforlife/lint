@@ -45,7 +45,7 @@ func NewTestPackageSuffix(
 	}
 }
 
-func (c testPackageSuffix) Check() []Problem {
+func (c testPackageSuffix) Check() ([]Problem, error) {
 	var problems []Problem
 
 	pkgPos := c.fset.Position(c.file.Package)
@@ -69,5 +69,5 @@ func (c testPackageSuffix) Check() []Problem {
 		})
 	}
 
-	return problems
+	return problems, nil
 }

@@ -15,5 +15,5 @@ type Finder interface {
 }
 
 type Check interface {
-	Check() []Problem
+	Check() ([]Problem, error)
 }

@@ -67,7 +67,12 @@ func (l linter) Run(program *goloader.Program) error {
 	}
 
 	for _, check := range checks {
-		problems = append(problems, check.Check()...)
+		prs, err := check.Check()
+		if err != nil {
+			return err
+		}
+
+		problems = append(problems, prs...)
 	}
 
 	for _, problem := range problems {
