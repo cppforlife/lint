@@ -98,7 +98,11 @@ func (ui *plainUI) ReportProblem(problem check.Problem) {
 	}
 
 	for _, diff := range problem.Diff {
-		ui.write("\t%s : %s -> %s\n", diff.Name, diff.Have, diff.Want)
+		have := diff.Have
+		if diff.MissingHave {
+			have = "(missing)"
+		}
+		ui.write("\t%s : %s -> %s\n", diff.Name, have, diff.Want)
 	}
 
 	ui.lastPackage = problem.Package

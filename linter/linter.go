@@ -45,6 +45,7 @@ func (l linter) Run(program *goloader.Program) error {
 		check.NewErrorAssignmentsFinder(),
 		check.NewTestPackageSuffixFinder(),
 		check.NewPackageDirNameFinder(),
+		check.NewGingkoSuiteTestFileFinder(),
 	}
 
 	numPkgs, numFiles := 0, 0

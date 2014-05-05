@@ -10,8 +10,11 @@ type ProblemContext map[string]string
 
 type ProblemDiff struct {
 	Name string
+
 	Have string
 	Want string
+
+	MissingHave bool
 }
 
 type Problem struct {
