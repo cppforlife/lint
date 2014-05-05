@@ -7,6 +7,8 @@ import (
 	"strings"
 
 	goloader "code.google.com/p/go.tools/go/loader"
+
+	"github.com/cppforlife/lint/check/fix"
 )
 
 type packageDirNameFinder struct{}
@@ -63,20 +65,36 @@ func (c packageDirName) Check() ([]Problem, error) {
 		problem := Problem{
 			Package:  c.pkg.Pkg,
 			Position: pkgPos,
-			Context: ProblemContext{
+			Context: Context{
 				"dirName": dirName,
 			},
 		}
 
 		if isTestPkgName {
 			problem.Text = "Test package name should match directory name with _text suffix"
-			problem.Diff = []ProblemDiff{
-				{Name: "package", Have: pkgName, Want: dirName + "_test"},
+			problem.Fixes = []fix.Fix{
+				fix.NewPackageRename(
+					fix.SimpleDiff{
+						Name:    "package",
+						Current: pkgName,
+						Desired: dirName + "_test",
+					},
+					c.file,
+					c.fset,
+				),
 			}
 		} else {
 			problem.Text = "Package name should match directory name"
-			problem.Diff = []ProblemDiff{
-				{Name: "package", Have: pkgName, Want: dirName},
+			problem.Fixes = []fix.Fix{
+				fix.NewPackageRename(
+					fix.SimpleDiff{
+						Name:    "package",
+						Current: pkgName,
+						Desired: dirName,
+					},
+					c.file,
+					c.fset,
+				),
 			}
 		}
 

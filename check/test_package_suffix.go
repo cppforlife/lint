@@ -7,6 +7,8 @@ import (
 	"strings"
 
 	goloader "code.google.com/p/go.tools/go/loader"
+
+	"github.com/cppforlife/lint/check/fix"
 )
 
 type testPackageSuffixFinder struct{}
@@ -60,11 +62,19 @@ func (c testPackageSuffix) Check() ([]Problem, error) {
 			Text:     "Test file should be in a corresponding test package",
 			Package:  c.pkg.Pkg,
 			Position: pkgPos,
-			Context: ProblemContext{
+			Context: Context{
 				"fileName": fileName,
 			},
-			Diff: []ProblemDiff{
-				{Name: "package", Have: pkgName, Want: pkgName + "_test"},
+			Fixes: []fix.Fix{
+				fix.NewPackageRename(
+					fix.SimpleDiff{
+						Name:    "package",
+						Current: pkgName,
+						Desired: pkgName + "_test",
+					},
+					c.file,
+					c.fset,
+				),
 			},
 		})
 	}

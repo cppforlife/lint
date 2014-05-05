@@ -30,7 +30,7 @@ func CaptureLintOutput(t *testing.T, goPath, packageName string) ([]byte, error)
 
 	cli := linter.NewCLI(ui, loader, l, logger)
 
-	err = cli.Run()
+	err = cli.Run(false)
 	if err != nil {
 		if _, ok := err.(linter.FoundProblemsError); !ok {
 			t.Fatalf("Run %v", err)

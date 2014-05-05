@@ -162,7 +162,7 @@ func (c errorAssignment) Check() ([]Problem, error) {
 				Text:     "Return value of type error should be assigned and used",
 				Package:  c.pkg.Pkg,
 				Position: c.fset.Position(c.funcIdent.NamePos),
-				Context: ProblemContext{
+				Context: Context{
 					"func": c.funcObj.String(),
 				},
 			})
@@ -173,7 +173,7 @@ func (c errorAssignment) Check() ([]Problem, error) {
 				Text:     "Return value of type error should be used",
 				Package:  c.pkg.Pkg,
 				Position: c.fset.Position(c.assignIdents[i].NamePos),
-				Context: ProblemContext{
+				Context: Context{
 					"func": c.funcObj.String(),
 				},
 			})

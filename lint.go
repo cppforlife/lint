@@ -11,6 +11,7 @@ import (
 
 var (
 	debugOpt = flag.Bool("debug", false, "show debugging information")
+	fixOpt   = flag.Bool("fix", false, "fix problems that can be fixed automatically")
 )
 
 func main() {
@@ -32,7 +33,7 @@ func main() {
 
 	cli := linter.NewCLI(ui, loader, l, logger)
 
-	err = cli.Run()
+	err = cli.Run(*fixOpt)
 	if err != nil {
 		ui.DisplayError(err)
 		os.Exit(1)

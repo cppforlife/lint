@@ -7,6 +7,12 @@ go install github.com/cppforlife/lint
 ./bin/lint github.com/cppforlife/lint
 ```
 
+Automatic fixing:
+
+```
+./bin/lint --fix github.com/cppforlife/lint
+```
+
 Example output of linting itself (test cases errors):
 
 ```

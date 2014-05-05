@@ -11,7 +11,7 @@ import (
 )
 
 type Linter interface {
-	Run(program *goloader.Program) error
+	Run(program *goloader.Program) ([]check.Problem, error)
 }
 
 type FoundProblemsError struct {
@@ -37,7 +37,9 @@ func NewLinter(reporter Reporter, logger *log.Logger) linter {
 	return linter{reporter, logger}
 }
 
-func (l linter) Run(program *goloader.Program) error {
+// Run runs list of checks against a loaded program
+// and returns list of problems found
+func (l linter) Run(program *goloader.Program) ([]check.Problem, error) {
 	var checks []check.Check
 	var problems []check.Problem
 
@@ -69,7 +71,7 @@ func (l linter) Run(program *goloader.Program) error {
 	for _, check := range checks {
 		prs, err := check.Check()
 		if err != nil {
-			return err
+			return problems, err
 		}
 
 		problems = append(problems, prs...)
@@ -80,8 +82,8 @@ func (l linter) Run(program *goloader.Program) error {
 	}
 
 	if len(problems) > 0 {
-		return FoundProblemsError{count: len(problems)}
+		return problems, FoundProblemsError{count: len(problems)}
 	}
 
-	return nil
+	return problems, nil
 }

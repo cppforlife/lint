@@ -4,18 +4,9 @@ import (
 	"go/token"
 
 	gotypes "code.google.com/p/go.tools/go/types"
+
+	"github.com/cppforlife/lint/check/fix"
 )
-
-type ProblemContext map[string]string
-
-type ProblemDiff struct {
-	Name string
-
-	Have string
-	Want string
-
-	MissingHave bool
-}
 
 type Problem struct {
 	Text string
@@ -23,7 +14,10 @@ type Problem struct {
 	Package  *gotypes.Package
 	Position token.Position
 
-	Context ProblemContext
+	Context Context
 
-	Diff []ProblemDiff
+	Diffs []fix.Diff
+	Fixes []fix.Fix
 }
+
+type Context map[string]string

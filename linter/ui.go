@@ -13,6 +13,7 @@ import (
 	gotypes "code.google.com/p/go.tools/go/types"
 
 	"github.com/cppforlife/lint/check"
+	"github.com/cppforlife/lint/check/fix"
 )
 
 type UI interface {
@@ -97,18 +98,26 @@ func (ui *plainUI) ReportProblem(problem check.Problem) {
 		ui.write("\t%s = %s\n", name, value)
 	}
 
-	for _, diff := range problem.Diff {
-		have := diff.Have
-		if diff.MissingHave {
-			have = "(missing)"
-		}
-		ui.write("\t%s : %s -> %s\n", diff.Name, have, diff.Want)
+	for _, diff := range problem.Diffs {
+		ui.displayDiff(diff)
+	}
+
+	for _, fix := range problem.Fixes {
+		ui.displayDiff(fix)
 	}
 
 	ui.lastPackage = problem.Package
 	ui.lastPosition = problem.Position
 
 	defer ui.flush()
+}
+
+func (ui *plainUI) displayDiff(diff fix.Diff) {
+	current := diff.CurrentStr()
+	if !diff.HasCurrent() {
+		current = "(missing)"
+	}
+	ui.write("\t%s : %s -> %s\n", diff.NameStr(), current, diff.DesiredStr())
 }
 
 func (ui *plainUI) DisplayError(err error) {
